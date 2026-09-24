@@ -84,7 +84,7 @@ build generates their morphology:
 **These parses have not been checked by anyone.** A tagger is wrong a few
 times in a hundred, and it is wrong most often exactly where Latin is
 ambiguous and you would most want help. The reader says so: both works carry a
-note at the head of every book, and both are tagged `auto` in the sidebar.
+note to that effect at the head of every book.
 
 Producing them needs spaCy and a ~500 MB model that nothing else in the build
 uses, so `tools/annotate.py` runs from its own virtualenv and caches its

@@ -60,15 +60,7 @@ NOTE = ("LASLA lemmatises words only, so the text is unpunctuated, and it "
 
 AUTO_NOTE = ("Automated morphology. No hand-checked annotation of this work "
              "exists, so the parses and dictionary forms here were generated "
-             "by the LatinCy tagger and have not been verified — expect them "
-             "to be wrong now and then, most often where the Latin is "
-             "genuinely ambiguous. The text is from %s, respelled with u for "
-             "consonantal v to match the rest of the site.")
-
-AUTO_SOURCE = {
-    "DeRePublica": "the Perseus Digital Library",
-    "DeLegibus": "The Latin Library",
-}
+             "by the LatinCy tagger and have not been verified.")
 
 
 def fetch(url, dest):
@@ -141,7 +133,7 @@ def main():
             "id": wid, "author": author, "authorLatin": author_latin,
             "title": english, "latin": latin, "label": english, "ref": ref,
             "scheme": "ud", "unit": "section", "noun": noun,
-            "note": AUTO_NOTE % AUTO_SOURCE[work_key] if auto else NOTE,
+            "note": AUTO_NOTE if auto else NOTE,
             "divisions": [{"n": d["n"], "units": d["units"], "first": d["first"]}
                           for d in divisions],
         }
