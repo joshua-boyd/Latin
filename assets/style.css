@@ -182,11 +182,32 @@ html, body {
 .book-list button[aria-current="true"] .div-title { color: #fff; opacity: .85; }
 
 .book-list .latin {
+  flex: 1 0 100%;
   font-family: var(--latin);
   font-style: italic;
-  color: var(--ink-soft);
   font-size: .95rem;
 }
+
+/* The work list runs to dozens of titles, so it gets author headings and a
+   scroll of its own rather than pushing the book list off the screen. */
+.work-list {
+  max-height: 46vh;
+  overflow-y: auto;
+  margin-bottom: .3rem;
+}
+
+.author-head {
+  font-size: .68rem;
+  text-transform: uppercase;
+  letter-spacing: .09em;
+  color: var(--ink-soft);
+  padding: .7rem .5rem .2rem;
+  position: sticky;
+  top: 0;
+  background: var(--panel);
+}
+
+.author-head:first-child { padding-top: 0; }
 
 /* "12 chapters" sits opposite the division label */
 .book-list .div-count {

@@ -1,68 +1,1157 @@
 {
  "works": [
   {
-   "id": "caesar",
-   "title": "Caesar",
-   "author": "C. Iulius Caesar",
-   "label": "Gallic War",
+   "id": "caesar-gallicum",
+   "author": "Caesar",
+   "authorLatin": "C. Iulius Caesar",
+   "title": "The Gallic War",
    "latin": "Bellum Gallicum",
+   "label": "The Gallic War",
    "ref": "Caes. Gal.",
-   "kind": "sectioned",
-   "unit": "chapter",
+   "scheme": "ud",
+   "unit": "section",
    "noun": "Book",
-   "note": "Of the Gallic War the treebank annotates twelve chapters of Book 2; the chapters it skips are simply absent.",
-   "divisions": [
-    {
-     "n": 2,
-     "units": 12,
-     "first": 1,
-     "title": "The Campaign against the Belgae"
-    }
-   ]
-  },
-  {
-   "id": "cicero",
-   "title": "Cicero",
-   "author": "M. Tullius Cicero",
-   "label": "Against Catiline",
-   "latin": "In Catilinam",
-   "ref": "Cic. Catil.",
-   "kind": "sectioned",
-   "unit": "chapter",
-   "noun": "Oration",
-   "note": "Numbered by chapter, the unit the annotators recorded, not by the finer section numbers also used to cite these speeches. The First Catilinarian is complete; the Second breaks off in chapter 11, and chapter 9 was never annotated.",
+   "note": "LASLA lemmatises words only, so the text is unpunctuated, and it keeps the classical orthography in which consonantal v is written u (Seruius, diuisa). Section numbers are the corpus's own and are canonical.",
    "divisions": [
     {
      "n": 1,
-     "units": 13,
-     "first": 1,
-     "title": "Delivered in the Senate"
+     "units": 322,
+     "first": "1.1"
     },
     {
      "n": 2,
-     "units": 10,
-     "first": 1,
-     "title": "Delivered to the People"
+     "units": 170,
+     "first": "1.1"
+    },
+    {
+     "n": 3,
+     "units": 148,
+     "first": "1.1"
+    },
+    {
+     "n": 4,
+     "units": 194,
+     "first": "1.1"
+    },
+    {
+     "n": 5,
+     "units": 338,
+     "first": "1.1"
+    },
+    {
+     "n": 6,
+     "units": 247,
+     "first": "1.1"
+    },
+    {
+     "n": 7,
+     "units": 528,
+     "first": "1.1"
     }
    ]
   },
   {
-   "id": "tacitus",
-   "title": "Tacitus",
-   "author": "Cornelius Tacitus",
-   "label": "Histories",
-   "latin": "Historiae",
-   "ref": "Tac. Hist.",
-   "kind": "prose",
-   "unit": "sentence",
+   "id": "caesar-civile",
+   "author": "Caesar",
+   "authorLatin": "C. Iulius Caesar",
+   "title": "The Civil War",
+   "latin": "Bellum Civile",
+   "label": "The Civil War",
+   "ref": "Caes. Civ.",
+   "scheme": "ud",
+   "unit": "section",
    "noun": "Book",
-   "note": "The treebank records no chapter or section numbers for this text, so it is numbered by sentence. Upstream the file is filed under Tacitus's Annals; its text is in fact the opening of the Histories.",
+   "note": "LASLA lemmatises words only, so the text is unpunctuated, and it keeps the classical orthography in which consonantal v is written u (Seruius, diuisa). Section numbers are the corpus's own and are canonical.",
    "divisions": [
     {
      "n": 1,
-     "units": 197,
-     "first": 1,
-     "title": "The Year of the Four Emperors begins"
+     "units": 433,
+     "first": "1.1"
+    },
+    {
+     "n": 2,
+     "units": 225,
+     "first": "1.1"
+    },
+    {
+     "n": 3,
+     "units": 532,
+     "first": "1.1"
+    }
+   ]
+  },
+  {
+   "id": "cicero-catilinam",
+   "author": "Cicero",
+   "authorLatin": "M. Tullius Cicero",
+   "title": "Against Catiline",
+   "latin": "In Catilinam",
+   "label": "Against Catiline",
+   "ref": "Cic. Catil.",
+   "scheme": "ud",
+   "unit": "section",
+   "noun": "Oration",
+   "note": "LASLA lemmatises words only, so the text is unpunctuated, and it keeps the classical orthography in which consonantal v is written u (Seruius, diuisa). Section numbers are the corpus's own and are canonical.",
+   "divisions": [
+    {
+     "n": 1,
+     "units": 33,
+     "first": "1"
+    },
+    {
+     "n": 2,
+     "units": 29,
+     "first": "1"
+    },
+    {
+     "n": 3,
+     "units": 29,
+     "first": "1"
+    },
+    {
+     "n": 4,
+     "units": 24,
+     "first": "1"
+    }
+   ]
+  },
+  {
+   "id": "cicero-philippicae",
+   "author": "Cicero",
+   "authorLatin": "M. Tullius Cicero",
+   "title": "The Philippics",
+   "latin": "Orationes Philippicae",
+   "label": "The Philippics",
+   "ref": "Cic. Phil.",
+   "scheme": "ud",
+   "unit": "section",
+   "noun": "Philippic",
+   "note": "LASLA lemmatises words only, so the text is unpunctuated, and it keeps the classical orthography in which consonantal v is written u (Seruius, diuisa). Section numbers are the corpus's own and are canonical.",
+   "divisions": [
+    {
+     "n": 1,
+     "units": 38,
+     "first": "1"
+    },
+    {
+     "n": 2,
+     "units": 119,
+     "first": "1"
+    },
+    {
+     "n": 3,
+     "units": 39,
+     "first": "1"
+    },
+    {
+     "n": 4,
+     "units": 16,
+     "first": "1"
+    },
+    {
+     "n": 5,
+     "units": 53,
+     "first": "1"
+    },
+    {
+     "n": 6,
+     "units": 19,
+     "first": "1"
+    },
+    {
+     "n": 7,
+     "units": 27,
+     "first": "1"
+    },
+    {
+     "n": 8,
+     "units": 33,
+     "first": "1"
+    },
+    {
+     "n": 9,
+     "units": 17,
+     "first": "1"
+    },
+    {
+     "n": 10,
+     "units": 26,
+     "first": "1"
+    },
+    {
+     "n": 11,
+     "units": 40,
+     "first": "1"
+    },
+    {
+     "n": 12,
+     "units": 30,
+     "first": "1"
+    },
+    {
+     "n": 13,
+     "units": 50,
+     "first": "1"
+    },
+    {
+     "n": 14,
+     "units": 38,
+     "first": "1"
+    }
+   ]
+  },
+  {
+   "id": "cicero-verrem-1",
+   "author": "Cicero",
+   "authorLatin": "M. Tullius Cicero",
+   "title": "Against Verres, First Hearing",
+   "latin": "In Verrem Actio Prima",
+   "label": "Against Verres, First Hearing",
+   "ref": "Cic. Ver.",
+   "scheme": "ud",
+   "unit": "section",
+   "noun": "Book",
+   "note": "LASLA lemmatises words only, so the text is unpunctuated, and it keeps the classical orthography in which consonantal v is written u (Seruius, diuisa). Section numbers are the corpus's own and are canonical.",
+   "divisions": [
+    {
+     "n": 1,
+     "units": 56,
+     "first": "1"
+    }
+   ]
+  },
+  {
+   "id": "cicero-verrem-2",
+   "author": "Cicero",
+   "authorLatin": "M. Tullius Cicero",
+   "title": "Against Verres, Second Hearing",
+   "latin": "In Verrem Actio Secunda",
+   "label": "Against Verres, Second Hearing",
+   "ref": "Cic. Ver. 2",
+   "scheme": "ud",
+   "unit": "section",
+   "noun": "Book",
+   "note": "LASLA lemmatises words only, so the text is unpunctuated, and it keeps the classical orthography in which consonantal v is written u (Seruius, diuisa). Section numbers are the corpus's own and are canonical.",
+   "divisions": [
+    {
+     "n": 1,
+     "units": 158,
+     "first": "1"
+    },
+    {
+     "n": 2,
+     "units": 192,
+     "first": "1"
+    },
+    {
+     "n": 3,
+     "units": 228,
+     "first": "1"
+    },
+    {
+     "n": 4,
+     "units": 151,
+     "first": "1"
+    },
+    {
+     "n": 5,
+     "units": 189,
+     "first": "1"
+    }
+   ]
+  },
+  {
+   "id": "cicero-div-caecilium",
+   "author": "Cicero",
+   "authorLatin": "M. Tullius Cicero",
+   "title": "Against Caecilius",
+   "latin": "Divinatio in Q. Caecilium",
+   "label": "Against Caecilius",
+   "ref": "Cic. Div. Caec.",
+   "scheme": "ud",
+   "unit": "section",
+   "noun": "Book",
+   "note": "LASLA lemmatises words only, so the text is unpunctuated, and it keeps the classical orthography in which consonantal v is written u (Seruius, diuisa). Section numbers are the corpus's own and are canonical.",
+   "divisions": [
+    {
+     "n": 1,
+     "units": 73,
+     "first": "1"
+    }
+   ]
+  },
+  {
+   "id": "cicero-roscio-amerino",
+   "author": "Cicero",
+   "authorLatin": "M. Tullius Cicero",
+   "title": "For Roscius of Ameria",
+   "latin": "Pro Sexto Roscio Amerino",
+   "label": "For Roscius of Ameria",
+   "ref": "Cic. S. Rosc.",
+   "scheme": "ud",
+   "unit": "section",
+   "noun": "Book",
+   "note": "LASLA lemmatises words only, so the text is unpunctuated, and it keeps the classical orthography in which consonantal v is written u (Seruius, diuisa). Section numbers are the corpus's own and are canonical.",
+   "divisions": [
+    {
+     "n": 1,
+     "units": 154,
+     "first": "1"
+    }
+   ]
+  },
+  {
+   "id": "cicero-roscio-comoedo",
+   "author": "Cicero",
+   "authorLatin": "M. Tullius Cicero",
+   "title": "For Roscius the Actor",
+   "latin": "Pro Q. Roscio Comoedo",
+   "label": "For Roscius the Actor",
+   "ref": "Cic. Q. Rosc.",
+   "scheme": "ud",
+   "unit": "section",
+   "noun": "Book",
+   "note": "LASLA lemmatises words only, so the text is unpunctuated, and it keeps the classical orthography in which consonantal v is written u (Seruius, diuisa). Section numbers are the corpus's own and are canonical.",
+   "divisions": [
+    {
+     "n": 1,
+     "units": 56,
+     "first": "1"
+    }
+   ]
+  },
+  {
+   "id": "cicero-cluentio",
+   "author": "Cicero",
+   "authorLatin": "M. Tullius Cicero",
+   "title": "For Cluentius",
+   "latin": "Pro A. Cluentio Habito",
+   "label": "For Cluentius",
+   "ref": "Cic. Clu.",
+   "scheme": "ud",
+   "unit": "section",
+   "noun": "Book",
+   "note": "LASLA lemmatises words only, so the text is unpunctuated, and it keeps the classical orthography in which consonantal v is written u (Seruius, diuisa). Section numbers are the corpus's own and are canonical.",
+   "divisions": [
+    {
+     "n": 1,
+     "units": 202,
+     "first": "1"
+    }
+   ]
+  },
+  {
+   "id": "cicero-caecina",
+   "author": "Cicero",
+   "authorLatin": "M. Tullius Cicero",
+   "title": "For Caecina",
+   "latin": "Pro A. Caecina",
+   "label": "For Caecina",
+   "ref": "Cic. Caecin.",
+   "scheme": "ud",
+   "unit": "section",
+   "noun": "Book",
+   "note": "LASLA lemmatises words only, so the text is unpunctuated, and it keeps the classical orthography in which consonantal v is written u (Seruius, diuisa). Section numbers are the corpus's own and are canonical.",
+   "divisions": [
+    {
+     "n": 1,
+     "units": 104,
+     "first": "1"
+    }
+   ]
+  },
+  {
+   "id": "cicero-quinctio",
+   "author": "Cicero",
+   "authorLatin": "M. Tullius Cicero",
+   "title": "For Quinctius",
+   "latin": "Pro P. Quinctio",
+   "label": "For Quinctius",
+   "ref": "Cic. Quinct.",
+   "scheme": "ud",
+   "unit": "section",
+   "noun": "Book",
+   "note": "LASLA lemmatises words only, so the text is unpunctuated, and it keeps the classical orthography in which consonantal v is written u (Seruius, diuisa). Section numbers are the corpus's own and are canonical.",
+   "divisions": [
+    {
+     "n": 1,
+     "units": 99,
+     "first": "1"
+    }
+   ]
+  },
+  {
+   "id": "cicero-tullio",
+   "author": "Cicero",
+   "authorLatin": "M. Tullius Cicero",
+   "title": "For Tullius",
+   "latin": "Pro M. Tullio",
+   "label": "For Tullius",
+   "ref": "Cic. Tull.",
+   "scheme": "ud",
+   "unit": "section",
+   "noun": "Book",
+   "note": "LASLA lemmatises words only, so the text is unpunctuated, and it keeps the classical orthography in which consonantal v is written u (Seruius, diuisa). Section numbers are the corpus's own and are canonical.",
+   "divisions": [
+    {
+     "n": 1,
+     "units": 59,
+     "first": "1"
+    }
+   ]
+  },
+  {
+   "id": "cicero-fonteio",
+   "author": "Cicero",
+   "authorLatin": "M. Tullius Cicero",
+   "title": "For Fonteius",
+   "latin": "Pro M. Fonteio",
+   "label": "For Fonteius",
+   "ref": "Cic. Font.",
+   "scheme": "ud",
+   "unit": "section",
+   "noun": "Book",
+   "note": "LASLA lemmatises words only, so the text is unpunctuated, and it keeps the classical orthography in which consonantal v is written u (Seruius, diuisa). Section numbers are the corpus's own and are canonical.",
+   "divisions": [
+    {
+     "n": 1,
+     "units": 58,
+     "first": "Fr.1"
+    }
+   ]
+  },
+  {
+   "id": "cicero-caelio",
+   "author": "Cicero",
+   "authorLatin": "M. Tullius Cicero",
+   "title": "For Caelius",
+   "latin": "Pro M. Caelio Rufo",
+   "label": "For Caelius",
+   "ref": "Cic. Cael.",
+   "scheme": "ud",
+   "unit": "section",
+   "noun": "Book",
+   "note": "LASLA lemmatises words only, so the text is unpunctuated, and it keeps the classical orthography in which consonantal v is written u (Seruius, diuisa). Section numbers are the corpus's own and are canonical.",
+   "divisions": [
+    {
+     "n": 1,
+     "units": 80,
+     "first": "1"
+    }
+   ]
+  },
+  {
+   "id": "cicero-milone",
+   "author": "Cicero",
+   "authorLatin": "M. Tullius Cicero",
+   "title": "For Milo",
+   "latin": "Pro T. Annio Milone",
+   "label": "For Milo",
+   "ref": "Cic. Mil.",
+   "scheme": "ud",
+   "unit": "section",
+   "noun": "Book",
+   "note": "LASLA lemmatises words only, so the text is unpunctuated, and it keeps the classical orthography in which consonantal v is written u (Seruius, diuisa). Section numbers are the corpus's own and are canonical.",
+   "divisions": [
+    {
+     "n": 1,
+     "units": 105,
+     "first": "1"
+    }
+   ]
+  },
+  {
+   "id": "cicero-murena",
+   "author": "Cicero",
+   "authorLatin": "M. Tullius Cicero",
+   "title": "For Murena",
+   "latin": "Pro L. Murena",
+   "label": "For Murena",
+   "ref": "Cic. Mur.",
+   "scheme": "ud",
+   "unit": "section",
+   "noun": "Book",
+   "note": "LASLA lemmatises words only, so the text is unpunctuated, and it keeps the classical orthography in which consonantal v is written u (Seruius, diuisa). Section numbers are the corpus's own and are canonical.",
+   "divisions": [
+    {
+     "n": 1,
+     "units": 90,
+     "first": "1"
+    }
+   ]
+  },
+  {
+   "id": "cicero-sestio",
+   "author": "Cicero",
+   "authorLatin": "M. Tullius Cicero",
+   "title": "For Sestius",
+   "latin": "Pro P. Sestio",
+   "label": "For Sestius",
+   "ref": "Cic. Sest.",
+   "scheme": "ud",
+   "unit": "section",
+   "noun": "Book",
+   "note": "LASLA lemmatises words only, so the text is unpunctuated, and it keeps the classical orthography in which consonantal v is written u (Seruius, diuisa). Section numbers are the corpus's own and are canonical.",
+   "divisions": [
+    {
+     "n": 1,
+     "units": 147,
+     "first": "1"
+    }
+   ]
+  },
+  {
+   "id": "cicero-plancio",
+   "author": "Cicero",
+   "authorLatin": "M. Tullius Cicero",
+   "title": "For Plancius",
+   "latin": "Pro Cn. Plancio",
+   "label": "For Plancius",
+   "ref": "Cic. Planc.",
+   "scheme": "ud",
+   "unit": "section",
+   "noun": "Book",
+   "note": "LASLA lemmatises words only, so the text is unpunctuated, and it keeps the classical orthography in which consonantal v is written u (Seruius, diuisa). Section numbers are the corpus's own and are canonical.",
+   "divisions": [
+    {
+     "n": 1,
+     "units": 104,
+     "first": "1"
+    }
+   ]
+  },
+  {
+   "id": "cicero-sulla",
+   "author": "Cicero",
+   "authorLatin": "M. Tullius Cicero",
+   "title": "For Sulla",
+   "latin": "Pro P. Sulla",
+   "label": "For Sulla",
+   "ref": "Cic. Sul.",
+   "scheme": "ud",
+   "unit": "section",
+   "noun": "Book",
+   "note": "LASLA lemmatises words only, so the text is unpunctuated, and it keeps the classical orthography in which consonantal v is written u (Seruius, diuisa). Section numbers are the corpus's own and are canonical.",
+   "divisions": [
+    {
+     "n": 1,
+     "units": 93,
+     "first": "1"
+    }
+   ]
+  },
+  {
+   "id": "cicero-flacco",
+   "author": "Cicero",
+   "authorLatin": "M. Tullius Cicero",
+   "title": "For Flaccus",
+   "latin": "Pro L. Flacco",
+   "label": "For Flaccus",
+   "ref": "Cic. Flac.",
+   "scheme": "ud",
+   "unit": "section",
+   "noun": "Book",
+   "note": "LASLA lemmatises words only, so the text is unpunctuated, and it keeps the classical orthography in which consonantal v is written u (Seruius, diuisa). Section numbers are the corpus's own and are canonical.",
+   "divisions": [
+    {
+     "n": 1,
+     "units": 107,
+     "first": "1"
+    }
+   ]
+  },
+  {
+   "id": "cicero-balbo",
+   "author": "Cicero",
+   "authorLatin": "M. Tullius Cicero",
+   "title": "For Balbus",
+   "latin": "Pro L. Cornelio Balbo",
+   "label": "For Balbus",
+   "ref": "Cic. Balb.",
+   "scheme": "ud",
+   "unit": "section",
+   "noun": "Book",
+   "note": "LASLA lemmatises words only, so the text is unpunctuated, and it keeps the classical orthography in which consonantal v is written u (Seruius, diuisa). Section numbers are the corpus's own and are canonical.",
+   "divisions": [
+    {
+     "n": 1,
+     "units": 65,
+     "first": "1"
+    }
+   ]
+  },
+  {
+   "id": "cicero-archia",
+   "author": "Cicero",
+   "authorLatin": "M. Tullius Cicero",
+   "title": "For the Poet Archias",
+   "latin": "Pro A. Licinio Archia",
+   "label": "For the Poet Archias",
+   "ref": "Cic. Arch.",
+   "scheme": "ud",
+   "unit": "section",
+   "noun": "Book",
+   "note": "LASLA lemmatises words only, so the text is unpunctuated, and it keeps the classical orthography in which consonantal v is written u (Seruius, diuisa). Section numbers are the corpus's own and are canonical.",
+   "divisions": [
+    {
+     "n": 1,
+     "units": 32,
+     "first": "1"
+    }
+   ]
+  },
+  {
+   "id": "cicero-marcello",
+   "author": "Cicero",
+   "authorLatin": "M. Tullius Cicero",
+   "title": "For Marcellus",
+   "latin": "Pro M. Marcello",
+   "label": "For Marcellus",
+   "ref": "Cic. Marcell.",
+   "scheme": "ud",
+   "unit": "section",
+   "noun": "Book",
+   "note": "LASLA lemmatises words only, so the text is unpunctuated, and it keeps the classical orthography in which consonantal v is written u (Seruius, diuisa). Section numbers are the corpus's own and are canonical.",
+   "divisions": [
+    {
+     "n": 1,
+     "units": 34,
+     "first": "1"
+    }
+   ]
+  },
+  {
+   "id": "cicero-ligario",
+   "author": "Cicero",
+   "authorLatin": "M. Tullius Cicero",
+   "title": "For Ligarius",
+   "latin": "Pro Q. Ligario",
+   "label": "For Ligarius",
+   "ref": "Cic. Lig.",
+   "scheme": "ud",
+   "unit": "section",
+   "noun": "Book",
+   "note": "LASLA lemmatises words only, so the text is unpunctuated, and it keeps the classical orthography in which consonantal v is written u (Seruius, diuisa). Section numbers are the corpus's own and are canonical.",
+   "divisions": [
+    {
+     "n": 1,
+     "units": 38,
+     "first": "1"
+    }
+   ]
+  },
+  {
+   "id": "cicero-deiotaro",
+   "author": "Cicero",
+   "authorLatin": "M. Tullius Cicero",
+   "title": "For King Deiotarus",
+   "latin": "Pro Rege Deiotaro",
+   "label": "For King Deiotarus",
+   "ref": "Cic. Deiot.",
+   "scheme": "ud",
+   "unit": "section",
+   "noun": "Book",
+   "note": "LASLA lemmatises words only, so the text is unpunctuated, and it keeps the classical orthography in which consonantal v is written u (Seruius, diuisa). Section numbers are the corpus's own and are canonical.",
+   "divisions": [
+    {
+     "n": 1,
+     "units": 43,
+     "first": "1"
+    }
+   ]
+  },
+  {
+   "id": "cicero-rabirio-postumo",
+   "author": "Cicero",
+   "authorLatin": "M. Tullius Cicero",
+   "title": "For Rabirius Postumus",
+   "latin": "Pro C. Rabirio Postumo",
+   "label": "For Rabirius Postumus",
+   "ref": "Cic. Rab. Post.",
+   "scheme": "ud",
+   "unit": "section",
+   "noun": "Book",
+   "note": "LASLA lemmatises words only, so the text is unpunctuated, and it keeps the classical orthography in which consonantal v is written u (Seruius, diuisa). Section numbers are the corpus's own and are canonical.",
+   "divisions": [
+    {
+     "n": 1,
+     "units": 48,
+     "first": "1"
+    }
+   ]
+  },
+  {
+   "id": "cicero-rabirio-perd",
+   "author": "Cicero",
+   "authorLatin": "M. Tullius Cicero",
+   "title": "For Rabirius on a Charge of Treason",
+   "latin": "Pro C. Rabirio Perduellionis Reo",
+   "label": "For Rabirius on a Charge of Treason",
+   "ref": "Cic. Rab. Perd.",
+   "scheme": "ud",
+   "unit": "section",
+   "noun": "Book",
+   "note": "LASLA lemmatises words only, so the text is unpunctuated, and it keeps the classical orthography in which consonantal v is written u (Seruius, diuisa). Section numbers are the corpus's own and are canonical.",
+   "divisions": [
+    {
+     "n": 1,
+     "units": 39,
+     "first": "1"
+    }
+   ]
+  },
+  {
+   "id": "cicero-pisonem",
+   "author": "Cicero",
+   "authorLatin": "M. Tullius Cicero",
+   "title": "Against Piso",
+   "latin": "In L. Calpurnium Pisonem",
+   "label": "Against Piso",
+   "ref": "Cic. Pis.",
+   "scheme": "ud",
+   "unit": "section",
+   "noun": "Book",
+   "note": "LASLA lemmatises words only, so the text is unpunctuated, and it keeps the classical orthography in which consonantal v is written u (Seruius, diuisa). Section numbers are the corpus's own and are canonical.",
+   "divisions": [
+    {
+     "n": 1,
+     "units": 118,
+     "first": "Fr.1"
+    }
+   ]
+  },
+  {
+   "id": "cicero-vatinium",
+   "author": "Cicero",
+   "authorLatin": "M. Tullius Cicero",
+   "title": "Against Vatinius",
+   "latin": "In P. Vatinium Testem",
+   "label": "Against Vatinius",
+   "ref": "Cic. Vat.",
+   "scheme": "ud",
+   "unit": "section",
+   "noun": "Book",
+   "note": "LASLA lemmatises words only, so the text is unpunctuated, and it keeps the classical orthography in which consonantal v is written u (Seruius, diuisa). Section numbers are the corpus's own and are canonical.",
+   "divisions": [
+    {
+     "n": 1,
+     "units": 42,
+     "first": "1"
+    }
+   ]
+  },
+  {
+   "id": "cicero-domo",
+   "author": "Cicero",
+   "authorLatin": "M. Tullius Cicero",
+   "title": "On His House",
+   "latin": "De Domo Sua",
+   "label": "On His House",
+   "ref": "Cic. Dom.",
+   "scheme": "ud",
+   "unit": "section",
+   "noun": "Book",
+   "note": "LASLA lemmatises words only, so the text is unpunctuated, and it keeps the classical orthography in which consonantal v is written u (Seruius, diuisa). Section numbers are the corpus's own and are canonical.",
+   "divisions": [
+    {
+     "n": 1,
+     "units": 147,
+     "first": "1"
+    }
+   ]
+  },
+  {
+   "id": "cicero-haruspicum",
+   "author": "Cicero",
+   "authorLatin": "M. Tullius Cicero",
+   "title": "On the Responses of the Soothsayers",
+   "latin": "De Haruspicum Responso",
+   "label": "On the Responses of the Soothsayers",
+   "ref": "Cic. Har.",
+   "scheme": "ud",
+   "unit": "section",
+   "noun": "Book",
+   "note": "LASLA lemmatises words only, so the text is unpunctuated, and it keeps the classical orthography in which consonantal v is written u (Seruius, diuisa). Section numbers are the corpus's own and are canonical.",
+   "divisions": [
+    {
+     "n": 1,
+     "units": 63,
+     "first": "1"
+    }
+   ]
+  },
+  {
+   "id": "cicero-provinciis",
+   "author": "Cicero",
+   "authorLatin": "M. Tullius Cicero",
+   "title": "On the Consular Provinces",
+   "latin": "De Provinciis Consularibus",
+   "label": "On the Consular Provinces",
+   "ref": "Cic. Prov.",
+   "scheme": "ud",
+   "unit": "section",
+   "noun": "Book",
+   "note": "LASLA lemmatises words only, so the text is unpunctuated, and it keeps the classical orthography in which consonantal v is written u (Seruius, diuisa). Section numbers are the corpus's own and are canonical.",
+   "divisions": [
+    {
+     "n": 1,
+     "units": 47,
+     "first": "1"
+    }
+   ]
+  },
+  {
+   "id": "cicero-lege-agraria",
+   "author": "Cicero",
+   "authorLatin": "M. Tullius Cicero",
+   "title": "On the Agrarian Law",
+   "latin": "De Lege Agraria",
+   "label": "On the Agrarian Law",
+   "ref": "Cic. Agr.",
+   "scheme": "ud",
+   "unit": "section",
+   "noun": "Oration",
+   "note": "LASLA lemmatises words only, so the text is unpunctuated, and it keeps the classical orthography in which consonantal v is written u (Seruius, diuisa). Section numbers are the corpus's own and are canonical.",
+   "divisions": [
+    {
+     "n": 1,
+     "units": 31,
+     "first": "Fr.1"
+    },
+    {
+     "n": 2,
+     "units": 103,
+     "first": "1"
+    },
+    {
+     "n": 3,
+     "units": 16,
+     "first": "1"
+    }
+   ]
+  },
+  {
+   "id": "cicero-imperio-pompei",
+   "author": "Cicero",
+   "authorLatin": "M. Tullius Cicero",
+   "title": "On the Command of Pompey",
+   "latin": "De Imperio Cn. Pompei",
+   "label": "On the Command of Pompey",
+   "ref": "Cic. Imp. Pomp.",
+   "scheme": "ud",
+   "unit": "section",
+   "noun": "Book",
+   "note": "LASLA lemmatises words only, so the text is unpunctuated, and it keeps the classical orthography in which consonantal v is written u (Seruius, diuisa). Section numbers are the corpus's own and are canonical.",
+   "divisions": [
+    {
+     "n": 1,
+     "units": 71,
+     "first": "1"
+    }
+   ]
+  },
+  {
+   "id": "cicero-reditum-senatu",
+   "author": "Cicero",
+   "authorLatin": "M. Tullius Cicero",
+   "title": "To the Senate after His Return",
+   "latin": "Post Reditum in Senatu",
+   "label": "To the Senate after His Return",
+   "ref": "Cic. Red. Sen.",
+   "scheme": "ud",
+   "unit": "section",
+   "noun": "Book",
+   "note": "LASLA lemmatises words only, so the text is unpunctuated, and it keeps the classical orthography in which consonantal v is written u (Seruius, diuisa). Section numbers are the corpus's own and are canonical.",
+   "divisions": [
+    {
+     "n": 1,
+     "units": 39,
+     "first": "1"
+    }
+   ]
+  },
+  {
+   "id": "cicero-reditum-quirites",
+   "author": "Cicero",
+   "authorLatin": "M. Tullius Cicero",
+   "title": "To the People after His Return",
+   "latin": "Post Reditum ad Quirites",
+   "label": "To the People after His Return",
+   "ref": "Cic. Red. Pop.",
+   "scheme": "ud",
+   "unit": "section",
+   "noun": "Book",
+   "note": "LASLA lemmatises words only, so the text is unpunctuated, and it keeps the classical orthography in which consonantal v is written u (Seruius, diuisa). Section numbers are the corpus's own and are canonical.",
+   "divisions": [
+    {
+     "n": 1,
+     "units": 25,
+     "first": "1"
+    }
+   ]
+  },
+  {
+   "id": "cicero-officiis",
+   "author": "Cicero",
+   "authorLatin": "M. Tullius Cicero",
+   "title": "On Duties",
+   "latin": "De Officiis",
+   "label": "On Duties",
+   "ref": "Cic. Off.",
+   "scheme": "ud",
+   "unit": "section",
+   "noun": "Book",
+   "note": "LASLA lemmatises words only, so the text is unpunctuated, and it keeps the classical orthography in which consonantal v is written u (Seruius, diuisa). Section numbers are the corpus's own and are canonical.",
+   "divisions": [
+    {
+     "n": 1,
+     "units": 1570,
+     "first": "1.1"
+    },
+    {
+     "n": 2,
+     "units": 922,
+     "first": "1.1"
+    },
+    {
+     "n": 3,
+     "units": 1191,
+     "first": "1.1"
+    }
+   ]
+  },
+  {
+   "id": "cicero-amicitia",
+   "author": "Cicero",
+   "authorLatin": "M. Tullius Cicero",
+   "title": "On Friendship",
+   "latin": "Laelius de Amicitia",
+   "label": "On Friendship",
+   "ref": "Cic. Amic.",
+   "scheme": "ud",
+   "unit": "section",
+   "noun": "Book",
+   "note": "LASLA lemmatises words only, so the text is unpunctuated, and it keeps the classical orthography in which consonantal v is written u (Seruius, diuisa). Section numbers are the corpus's own and are canonical.",
+   "divisions": [
+    {
+     "n": 1,
+     "units": 104,
+     "first": "1"
+    }
+   ]
+  },
+  {
+   "id": "cicero-senectute",
+   "author": "Cicero",
+   "authorLatin": "M. Tullius Cicero",
+   "title": "On Old Age",
+   "latin": "Cato Maior de Senectute",
+   "label": "On Old Age",
+   "ref": "Cic. Sen.",
+   "scheme": "ud",
+   "unit": "section",
+   "noun": "Book",
+   "note": "LASLA lemmatises words only, so the text is unpunctuated, and it keeps the classical orthography in which consonantal v is written u (Seruius, diuisa). Section numbers are the corpus's own and are canonical.",
+   "divisions": [
+    {
+     "n": 1,
+     "units": 85,
+     "first": "1"
+    }
+   ]
+  },
+  {
+   "id": "cicero-scauro-fr",
+   "author": "Cicero",
+   "authorLatin": "M. Tullius Cicero",
+   "title": "For Scaurus (fragments)",
+   "latin": "Pro M. Aemilio Scauro (fragmenta)",
+   "label": "For Scaurus (fragments)",
+   "ref": "Cic. Scaur.",
+   "scheme": "ud",
+   "unit": "section",
+   "noun": "Book",
+   "note": "LASLA lemmatises words only, so the text is unpunctuated, and it keeps the classical orthography in which consonantal v is written u (Seruius, diuisa). Section numbers are the corpus's own and are canonical.",
+   "divisions": [
+    {
+     "n": 1,
+     "units": 59,
+     "first": "2"
+    }
+   ]
+  },
+  {
+   "id": "tacitus-annales",
+   "author": "Tacitus",
+   "authorLatin": "Cornelius Tacitus",
+   "title": "The Annals",
+   "latin": "Annales",
+   "label": "The Annals",
+   "ref": "Tac. Ann.",
+   "scheme": "ud",
+   "unit": "section",
+   "noun": "Book",
+   "note": "LASLA lemmatises words only, so the text is unpunctuated, and it keeps the classical orthography in which consonantal v is written u (Seruius, diuisa). Section numbers are the corpus's own and are canonical.",
+   "divisions": [
+    {
+     "n": 1,
+     "units": 325,
+     "first": "1.1"
+    },
+    {
+     "n": 2,
+     "units": 291,
+     "first": "1.1"
+    },
+    {
+     "n": 3,
+     "units": 254,
+     "first": "1.1"
+    },
+    {
+     "n": 4,
+     "units": 245,
+     "first": "1.1"
+    },
+    {
+     "n": 5,
+     "units": 28,
+     "first": "1.1"
+    },
+    {
+     "n": 6,
+     "units": 170,
+     "first": "1.1"
+    },
+    {
+     "n": 11,
+     "units": 122,
+     "first": "1.1"
+    },
+    {
+     "n": 12,
+     "units": 186,
+     "first": "1.1"
+    },
+    {
+     "n": 13,
+     "units": 182,
+     "first": "1.1"
+    },
+    {
+     "n": 14,
+     "units": 206,
+     "first": "1.1"
+    },
+    {
+     "n": 15,
+     "units": 235,
+     "first": "1.1"
+    },
+    {
+     "n": 16,
+     "units": 96,
+     "first": "1.1"
+    }
+   ]
+  },
+  {
+   "id": "tacitus-historiae",
+   "author": "Tacitus",
+   "authorLatin": "Cornelius Tacitus",
+   "title": "The Histories",
+   "latin": "Historiae",
+   "label": "The Histories",
+   "ref": "Tac. Hist.",
+   "scheme": "ud",
+   "unit": "section",
+   "noun": "Book",
+   "note": "LASLA lemmatises words only, so the text is unpunctuated, and it keeps the classical orthography in which consonantal v is written u (Seruius, diuisa). Section numbers are the corpus's own and are canonical.",
+   "divisions": [
+    {
+     "n": 1,
+     "units": 1556,
+     "first": "1.1"
+    },
+    {
+     "n": 2,
+     "units": 1655,
+     "first": "1.1"
+    },
+    {
+     "n": 3,
+     "units": 1499,
+     "first": "1.1"
+    },
+    {
+     "n": 4,
+     "units": 1710,
+     "first": "1.1"
+    },
+    {
+     "n": 5,
+     "units": 454,
+     "first": "1.1"
+    }
+   ]
+  },
+  {
+   "id": "tacitus-germania",
+   "author": "Tacitus",
+   "authorLatin": "Cornelius Tacitus",
+   "title": "The Germania",
+   "latin": "De Origine et Situ Germanorum",
+   "label": "The Germania",
+   "ref": "Tac. Ger.",
+   "scheme": "ud",
+   "unit": "section",
+   "noun": "Book",
+   "note": "LASLA lemmatises words only, so the text is unpunctuated, and it keeps the classical orthography in which consonantal v is written u (Seruius, diuisa). Section numbers are the corpus's own and are canonical.",
+   "divisions": [
+    {
+     "n": 1,
+     "units": 124,
+     "first": "1.1"
+    }
+   ]
+  },
+  {
+   "id": "tacitus-agricola",
+   "author": "Tacitus",
+   "authorLatin": "Cornelius Tacitus",
+   "title": "The Agricola",
+   "latin": "De Vita Iulii Agricolae",
+   "label": "The Agricola",
+   "ref": "Tac. Ag.",
+   "scheme": "ud",
+   "unit": "section",
+   "noun": "Book",
+   "note": "LASLA lemmatises words only, so the text is unpunctuated, and it keeps the classical orthography in which consonantal v is written u (Seruius, diuisa). Section numbers are the corpus's own and are canonical.",
+   "divisions": [
+    {
+     "n": 1,
+     "units": 176,
+     "first": "1.1"
+    }
+   ]
+  },
+  {
+   "id": "tacitus-dialogus",
+   "author": "Tacitus",
+   "authorLatin": "Cornelius Tacitus",
+   "title": "A Dialogue on Oratory",
+   "latin": "Dialogus de Oratoribus",
+   "label": "A Dialogue on Oratory",
+   "ref": "Tac. Dial.",
+   "scheme": "ud",
+   "unit": "section",
+   "noun": "Book",
+   "note": "LASLA lemmatises words only, so the text is unpunctuated, and it keeps the classical orthography in which consonantal v is written u (Seruius, diuisa). Section numbers are the corpus's own and are canonical.",
+   "divisions": [
+    {
+     "n": 1,
+     "units": 224,
+     "first": "1.1"
     }
    ]
   }

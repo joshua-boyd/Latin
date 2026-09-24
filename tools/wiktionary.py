@@ -57,11 +57,19 @@ def tidy(raw):
     return g
 
 
-def collect(senses, glosses):
-    """Add each sense's glosses, skipping ones already covered."""
+def collect(senses, glosses, allow_forms=False):
+    """Add each sense's glosses, skipping ones already covered.
+
+    Participial adjectives and -e adverbs — adductus, adiacens, acute — are
+    filed by Wiktionary as inflected forms of their verb or adjective, tags
+    and all, but their glosses are real definitions rather than pointers. So
+    form-of senses are held back for a second pass rather than dropped: by
+    then the FORM_OF gloss pattern has already thrown out the ones that only
+    say "inflection of Remus".
+    """
     for sense in senses:
         tags = sense.get("tags") or []
-        if "form-of" in tags or "alt-of" in tags:
+        if not allow_forms and ("form-of" in tags or "alt-of" in tags):
             continue
         for raw in sense.get("glosses") or []:
             g = tidy(raw)
@@ -99,5 +107,7 @@ def load(path, matcher):
             collect(classical, glosses)
             if not glosses:
                 collect(senses, glosses)
+            if not glosses:
+                collect(senses, glosses, allow_forms=True)
             if glosses:
                 matcher.add(word, glosses[:3])

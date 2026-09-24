@@ -1,71 +1,13 @@
 /* Caesar, Cicero and Tacitus — an annotated reader.
  *
- * Every token rendered here is a distinct record from the Perseus Latin
- * Dependency Treebank, addressed by its position in the text. Nothing is
- * looked up by spelling, so two identically spelled words keep their own
- * separate annotations.
+ * Every token rendered here is a distinct record from the LASLA Opera Latina
+ * corpus, addressed by its position in the text. Nothing is looked up by
+ * spelling, so two identically spelled words keep their own separate
+ * analyses. The morphology is rendered at build time (see tools/lasla.py) and
+ * printed here verbatim; the only thing looked up by key is the definition.
  */
 (function () {
   "use strict";
-
-  /* Perseus/ALDT nine-character postag, one slot per feature. The Latin tag
-     set differs from the Greek in three places that matter: case has an
-     ablative, voice has a deponent, and there is no dual, optative, middle or
-     article. A slot the annotators left inapplicable is "-" or "_". */
-  var MORPH = [
-    { key: "pos", map: {
-      n: "noun", v: "verb", t: "participle", a: "adjective", d: "adverb",
-      c: "conjunction", r: "preposition", p: "pronoun", m: "numeral",
-      i: "interjection", e: "exclamation", g: "particle", u: "punctuation",
-      x: "unclassified"
-    } },
-    { key: "person", map: { 1: "1st person", 2: "2nd person", 3: "3rd person" } },
-    { key: "number", map: { s: "singular", p: "plural" } },
-    { key: "tense", map: {
-      p: "present", i: "imperfect", r: "perfect", l: "pluperfect",
-      t: "future perfect", f: "future"
-    } },
-    { key: "mood", map: {
-      i: "indicative", s: "subjunctive", n: "infinitive", m: "imperative",
-      p: "participle", d: "gerund", g: "gerundive", u: "supine"
-    } },
-    { key: "voice", map: {
-      a: "active", p: "passive", d: "deponent"
-    } },
-    { key: "gender", map: { m: "masculine", f: "feminine", n: "neuter" } },
-    { key: "case", map: {
-      n: "nominative", g: "genitive", d: "dative", a: "accusative",
-      b: "ablative", v: "vocative", l: "locative"
-    } },
-    { key: "degree", map: { c: "comparative", s: "superlative" } }
-  ];
-
-  /* ALDT dependency labels. */
-  var RELATIONS = {
-    PRED: "main verb of the sentence",
-    SBJ: "subject",
-    OBJ: "object",
-    ATR: "modifies a noun",
-    ATV: "predicative complement",
-    AtvV: "predicative complement",
-    PNOM: "predicate noun (with “to be”)",
-    OCOMP: "object complement",
-    ADV: "adverbial",
-    COORD: "coordinating word",
-    APOS: "appositive marker",
-    AuxP: "preposition",
-    AuxC: "subordinating conjunction",
-    AuxV: "auxiliary verb",
-    AuxR: "reflexive passive",
-    AuxX: "comma",
-    AuxG: "bracketing punctuation",
-    AuxK: "sentence-final punctuation",
-    AuxY: "sentence adverbial",
-    AuxZ: "emphasising particle",
-    ExD: "governing word is omitted",
-    nil: "unannotated",
-    UNDEFINED: "unannotated"
-  };
 
   var el = {
     text: document.getElementById("text"),
@@ -83,7 +25,6 @@
     gloss: document.getElementById("p-gloss"),
     lemma: document.getElementById("p-lemma"),
     parse: document.getElementById("p-parse"),
-    rel: document.getElementById("p-rel"),
     src: document.getElementById("p-src"),
     logeion: document.getElementById("p-logeion")
   };
@@ -91,8 +32,8 @@
   var lexicon = null;
   var works = [];           // from data/works.json
   var work = null;          // the work currently selected
-  var current = null;       // the division currently rendered
-  var tokens = [];          // flat token list for the rendered division
+  var current = null;       // the book currently rendered
+  var tokens = [];          // flat token list for the rendered book
   var activeWord = null;
   var bookCache = {};
 
@@ -103,7 +44,7 @@
     return null;
   }
 
-  /* Divisions are not always 1..N — the Gallic War here is Book 2 alone. */
+  /* Books are not always 1..N — the Annals is missing 7 to 10. */
   function divisionOf(w, n) {
     for (var i = 0; i < w.divisions.length; i++) {
       if (w.divisions[i].n === n) return w.divisions[i];
@@ -133,96 +74,21 @@
     });
   }
 
-  /* ---------------- morphology ---------------- */
-
-  function isPunct(tag) {
-    return tag.charAt(0) === "u";
-  }
-
-  function feat(tag, slot) {
-    var c = tag.charAt(slot);
-    if (!c || c === "-" || c === "_") return "";
-    return MORPH[slot].map[c] || "";
-  }
-
-  var SLOT = { POS: 0, PERSON: 1, NUMBER: 2, TENSE: 3, MOOD: 4, VOICE: 5,
-               GENDER: 6, CASE: 7, DEGREE: 8 };
-
-  /* Say it the way a grammar would: "perfect passive participle, masculine
-     nominative singular" rather than raw slot order. */
-  function parseLine(tag) {
-    if (!tag) return "not annotated";
-
-    var pos = feat(tag, SLOT.POS) || "word";
-    var mood = feat(tag, SLOT.MOOD);
-    var tense = feat(tag, SLOT.TENSE);
-    var voice = feat(tag, SLOT.VOICE);
-    var person = feat(tag, SLOT.PERSON);
-    var number = feat(tag, SLOT.NUMBER);
-    var gender = feat(tag, SLOT.GENDER);
-    var kase = feat(tag, SLOT.CASE);
-    var degree = feat(tag, SLOT.DEGREE);
-
-    var nominal = [gender, kase, number].filter(Boolean).join(" ");
-    var groups = [];
-
-    if (mood === "participle" || mood === "gerundive") {
-      groups.push([tense, voice, mood].filter(Boolean).join(" "));
-      if (nominal) groups.push(nominal);
-    } else if (mood === "gerund" || mood === "supine") {
-      groups.push(mood);
-      if (kase) groups.push(kase);
-    } else if (mood === "infinitive") {
-      groups.push([tense, voice, "infinitive"].filter(Boolean).join(" "));
-    } else if (mood) {
-      groups.push([tense, voice, mood].filter(Boolean).join(" "));
-      var agree = [person, number].filter(Boolean).join(" ");
-      if (agree) groups.push(agree);
-    } else if (nominal) {
-      groups.push(nominal);
-    } else {
-      var rest = [tense, voice, person, number].filter(Boolean).join(" ");
-      if (rest) groups.push(rest);
-    }
-
-    if (degree) groups.push(degree);
-    return groups.length ? pos + " — " + groups.join(", ") : pos;
-  }
-
-  function relationLabel(rel) {
-    if (!rel) return "—";
-    var base = rel.replace(/_(CO|AP)$/, "");
-    var note = RELATIONS[base] || base;
-    if (/_CO$/.test(rel)) note += " (one of two or more coordinated)";
-    if (/_AP$/.test(rel)) note += " (part of an appositive)";
-    return note + " · " + rel;
-  }
-
   /* ---------------- glosses ---------------- */
 
-  /* Morpheus numbers ambiguous lemmas; the dictionaries mostly do not, and the
-     digit is noise on the page. "sum1" reads as "sum". */
-  function displayLemma(lemma) {
-    return lemma ? lemma.replace(/\d+$/, "") : "";
+  /* LASLA lemmatises proper nouns in lower case ("roma", "seruius"). The
+     lexicon matches case-insensitively, but a capital reads better as the
+     dictionary form, and the corpus tells us which words are names. */
+  function displayLemma(lemma, isName) {
+    if (!lemma) return "";
+    return isName ? lemma.charAt(0).toUpperCase() + lemma.slice(1) : lemma;
   }
 
-  /* Roman names run -ius, -ianus and the gentilicial -eius; the treebank
-     spells consonantal i as j about as often as not. */
-  var GENTILE = /(ius|ianus|inus|eius|ejus|icus)\d*$/i;
-
-  function glossFor(lemma, tag) {
+  function glossFor(lemma, isName) {
     var hit = lexicon && Object.prototype.hasOwnProperty.call(lexicon, lemma)
       ? lexicon[lemma] : null;
     if (hit) return { text: hit[0], src: hit[1] === 0 ? "Wiktionary" : "Lewis & Short" };
-
-    // Most gaps are the minor Gallic and Roman names neither dictionary lists.
-    if (lemma && lemma.charAt(0) !== lemma.charAt(0).toLowerCase()) {
-      if (GENTILE.test(lemma)) {
-        return { text: "proper name (Roman gentile or derived adjective)",
-                 src: null, weak: true };
-      }
-      return { text: "proper name", src: null, weak: true };
-    }
+    if (isName) return { text: "proper name", src: null, weak: true };
     if (!lemma) return { text: "no dictionary form recorded", src: null, weak: true };
     return { text: "no definition available", src: null, weak: true };
   }
@@ -235,61 +101,40 @@
     });
   }
 
-  /* The treebank splits enclitics off as their own tokens and marks them with
-     a leading hyphen: "litteris" + "-que". They are worth keeping apart —
-     -que carries its own parse and its own entry — but the page should read
-     "litterisque" as the manuscript does, so the hyphen is dropped from the
-     text and kept in the popup, where it identifies what was clicked. */
-  function enclitic(form) {
-    return form.charAt(0) === "-" && form.length > 1;
-  }
-
   function render(book) {
     current = book;
     tokens = [];
 
     var div = divisionOf(work, book.book) || {};
-    var display = esc(work.latin) + " " + book.book;
-    var html = ['<h2 class="book-title"><small>' + esc(work.title) + " · " +
-      esc(work.noun) + " " + book.book +
-      (div.title ? " · " + esc(div.title) : "") + "</small>" + display + "</h2>"];
+    var many = work.divisions.length > 1;
+    var html = ['<h2 class="book-title"><small>' + esc(work.authorLatin) +
+      (many ? " · " + esc(work.noun) + " " + book.book : "") + "</small>" +
+      esc(work.latin) + (many ? " " + book.book : "") + "</h2>"];
 
     if (work.note) html.push('<div class="prose-note">' + esc(work.note) + "</div>");
 
     for (var i = 0; i < book.lines.length; i++) {
       var line = book.lines[i];
-      var n = line.n;
       var pieces = [];
 
       for (var j = 0; j < line.w.length; j++) {
         var w = line.w[j];
-        var form = w[0];
-        var lemma = book.lemmas[w[1]];
-        var tag = book.postags[w[2]] || "";
-        var rel = book.rels[w[3]] || "";
         var idx = tokens.length;
-        tokens.push({ form: form, lemma: lemma, tag: tag, rel: rel, line: n });
-
-        var clipped = enclitic(form);
-        var space = pieces.length && !clipped ? " " : "";
-        if (isPunct(tag) || (!tag && /^[.,;:!?'"()\[\]—–]+$/.test(form))) {
-          pieces.push('<span class="punct">' + esc(form) + "</span>");
-        } else {
-          var unknown = !lemma ? " unknown" : "";
-          pieces.push(
-            space +
-            '<span class="w' + unknown + (clipped ? " enclitic" : "") +
-            '" data-t="' + idx + '">' +
-            esc(clipped ? form.slice(1) : form) + "</span>"
-          );
-        }
+        tokens.push({
+          form: w[0],
+          lemma: book.lemmas[w[1]],
+          parse: book.parses[w[2]] || "",
+          name: !!w[3],
+          line: line.n
+        });
+        pieces.push((pieces.length ? " " : "") +
+          '<span class="w' + (book.lemmas[w[1]] ? "" : " unknown") +
+          '" data-t="' + idx + '">' + esc(w[0]) + "</span>");
       }
 
-      // Every unit here is a paragraph-sized chapter or a whole sentence, so
-      // each one is numbered; there is no every-fifth-line convention to keep.
       html.push(
-        '<div class="line prose" id="l' + book.book + "-" + n + '">' +
-        '<span class="lnum">' + n + "</span>" +
+        '<div class="line prose" id="' + sectionId(book.book, line.n) + '">' +
+        '<span class="lnum">' + esc(line.n) + "</span>" +
         '<span class="line-text">' + pieces.join("") + "</span>" +
         "</div>"
       );
@@ -297,6 +142,12 @@
 
     el.text.innerHTML = html.join("");
     hidePopup();
+  }
+
+  /* Section labels carry dots ("12.3"), so they are encoded rather than
+     interpolated straight into an id. */
+  function sectionId(book, n) {
+    return "l" + book + "_" + String(n).replace(/\./g, "-");
   }
 
   /* ---------------- popup ---------------- */
@@ -309,25 +160,21 @@
     activeWord = span;
     span.classList.add("active");
 
-    var g = glossFor(t.lemma, t.tag);
+    var g = glossFor(t.lemma, t.name);
+    var many = work.divisions.length > 1;
 
     el.form.textContent = t.form;
-    // "Cic. Catil. 1.7" is a real citation; the Tacitus numbers are ours, so
-    // say so rather than dress them up as sections.
-    el.ref.textContent = current.unit === "sentence"
-      ? work.ref + " " + current.book + " · sentence " + t.line
-      : work.ref + " " + current.book + "." + t.line;
+    el.ref.textContent = work.ref + " " + (many ? current.book + "." : "") + t.line;
     el.gloss.textContent = g.text;
     el.gloss.className = "p-gloss" + (g.weak ? " none" : "");
-    el.lemma.textContent = displayLemma(t.lemma) || "—";
+    el.lemma.textContent = displayLemma(t.lemma, t.name) || "—";
     el.lemma.className = t.lemma ? "latin-val" : "";
-    el.parse.textContent = parseLine(t.tag);
-    el.rel.textContent = relationLabel(t.rel);
+    el.parse.textContent = t.parse || "not annotated";
     el.src.textContent = g.src ? g.src : "";
 
     if (t.lemma) {
       el.logeion.href = "https://logeion.uchicago.edu/" +
-        encodeURIComponent(displayLemma(t.lemma));
+        encodeURIComponent(displayLemma(t.lemma, t.name));
       el.logeion.hidden = false;
     } else {
       el.logeion.hidden = true;
@@ -394,32 +241,37 @@
 
   /* ---------------- navigation ---------------- */
 
-  /* Switching work re-lists its divisions, then opens one. */
-  function selectWork(id, n, lineNo, push) {
+  function selectWork(id, n, sec, push) {
     var next = workById(id) || works[0];
     if (work !== next) {
       work = next;
-      el.workAuthor.textContent = work.author;
-      el.workName.textContent = work.label || work.title;
-      document.title = work.title + " — an annotated Latin reader";
+      el.workAuthor.textContent = work.authorLatin;
+      el.workName.textContent = work.latin;
+      document.title = work.latin + " — an annotated Latin reader";
       buildBookList();
       Array.prototype.forEach.call(el.works.querySelectorAll("button"), function (b) {
         var on = b.dataset.work === work.id;
         b.setAttribute("aria-current", String(on));
         b.setAttribute("aria-checked", String(on));
+        if (on) b.scrollIntoView({ block: "nearest" });
       });
-      el.booksHead.textContent = plural(work.noun) + " of " + work.label;
-      el.jump.placeholder = "e.g. " + work.divisions[0].n + "." +
-        (work.divisions[0].first || 1);
+      el.booksHead.textContent = work.divisions.length > 1
+        ? plural(work.noun) : "Sections";
+      el.booksHead.hidden = work.divisions.length < 2;
+      el.list.hidden = work.divisions.length < 2;
+      // A one-book work is numbered straight through, so its section count is
+      // also its last section — a more useful hint than "1".
+      el.jump.placeholder = "e.g. " + (work.divisions.length > 1
+        ? work.divisions[0].n + "." + work.divisions[0].first
+        : work.divisions[0].units);
     }
-    return selectBook(n || work.divisions[0].n, lineNo, push);
+    return selectBook(n || work.divisions[0].n, sec, push);
   }
 
-  function selectBook(n, lineNo, push) {
+  function selectBook(n, sec, push) {
     n = n | 0;
     if (!divisionOf(work, n)) n = work.divisions[0].n;
-    el.text.innerHTML = '<p class="loading">Loading ' + esc(work.noun) + " " +
-      n + "…</p>";
+    el.text.innerHTML = '<p class="loading">Loading…</p>';
 
     Array.prototype.forEach.call(el.list.querySelectorAll("button"), function (b) {
       b.setAttribute("aria-current", String(+b.dataset.book === n));
@@ -427,24 +279,24 @@
 
     return loadBook(work.id, n).then(function (book) {
       render(book);
-      if (lineNo) {
-        goToLine(n, lineNo);
+      if (sec) {
+        goToSection(n, sec);
       } else {
         el.reader.scrollTop = 0;
         window.scrollTo(0, 0);
       }
       if (push !== false) {
-        history.replaceState(null, "", hashFor(work.id, n, lineNo));
+        history.replaceState(null, "", hashFor(work.id, n, sec));
       }
       el.sidebar.classList.remove("open");
     }).catch(function (e) {
-      el.text.innerHTML = '<p class="error">Could not load ' + esc(work.noun) +
+      el.text.innerHTML = '<p class="error">Could not load ' + esc(work.latin) +
         " " + n + ". " + esc(e.message) + "</p>";
     });
   }
 
-  function goToLine(book, line) {
-    var target = document.getElementById("l" + book + "-" + line);
+  function goToSection(book, sec) {
+    var target = document.getElementById(sectionId(book, sec));
     if (!target) return false;
     Array.prototype.forEach.call(el.text.querySelectorAll(".line.target"),
       function (d) { d.classList.remove("target"); });
@@ -453,38 +305,47 @@
     return true;
   }
 
+  /* "1.90.20" -> book 1, section "90.20"; "1.5" -> book 1, section "5".
+     A work with only one book takes the whole string as the section. */
   function parseRef(s) {
-    var m = /^\s*(\d{1,2})(?:[.:\s]+(\d{1,4}))?\s*$/.exec(s || "");
+    var m = /^\s*(\d{1,3}(?:[.:]\d{1,4}){0,2})\s*$/.exec(s || "");
     if (!m) return null;
-    return { book: +m[1], line: m[2] ? +m[2] : 0 };
+    var parts = m[1].split(/[.:]/);
+    if (work && work.divisions.length < 2) {
+      return { book: work.divisions[0].n, sec: parts.join(".") };
+    }
+    return { book: +parts[0], sec: parts.slice(1).join(".") };
   }
 
-  function hashFor(id, book, line) {
-    return "#" + id + "." + book + (line ? "." + line : "");
+  function hashFor(id, book, sec) {
+    return "#" + id + "." + book + (sec ? "." + sec : "");
   }
 
-  /* "#cicero.1.7", or a bare "#2.5" meaning the first work. */
+  /* "#tacitus-annales.1.5" — the leading component is always the work id. */
   function fromHash() {
     var raw = decodeURIComponent(location.hash.replace(/^#/, ""));
     var m = /^([A-Za-z][A-Za-z0-9_-]*)\.(.+)$/.exec(raw);
     if (m && workById(m[1])) {
-      var ref = parseRef(m[2]);
-      if (ref) return { id: m[1], book: ref.book, line: ref.line };
+      var parts = m[2].split(".");
+      return { id: m[1], book: +parts[0], sec: parts.slice(1).join(".") };
     }
-    var bare = parseRef(raw);
-    if (bare) return { id: works[0].id, book: bare.book, line: bare.line };
-    return { id: works[0].id, book: 0, line: 0 };
+    return { id: works[0].id, book: 0, sec: "" };
   }
 
   /* ---------------- wiring ---------------- */
 
   function buildWorkList() {
     var html = "";
+    var seen = null;
     for (var i = 0; i < works.length; i++) {
+      var w = works[i];
+      if (w.author !== seen) {
+        seen = w.author;
+        html += '<li class="author-head">' + esc(w.author) + "</li>";
+      }
       html += '<li><button type="button" role="radio" aria-checked="false" data-work="' +
-        esc(works[i].id) + '">' +
-        "<span>" + esc(works[i].title) + "</span>" +
-        '<span class="latin">' + esc(works[i].latin) + "</span></button></li>";
+        esc(w.id) + '"><span class="latin">' + esc(w.latin) + "</span>" +
+        '<span class="div-title">' + esc(w.title) + "</span></button></li>";
     }
     el.works.innerHTML = html;
     el.works.addEventListener("click", function (e) {
@@ -500,9 +361,7 @@
       html += '<li><button type="button" data-book="' + d.n + '">' +
         "<span>" + esc(work.noun) + " " + d.n + "</span>" +
         '<span class="div-count">' + d.units + " " + esc(work.unit) +
-        (d.units === 1 ? "" : "s") + "</span>" +
-        (d.title ? '<span class="div-title">' + esc(d.title) + "</span>" : "") +
-        "</button></li>";
+        (d.units === 1 ? "" : "s") + "</span></button></li>";
     }
     el.list.innerHTML = html;
   }
@@ -542,10 +401,10 @@
       var ref = parseRef(el.jump.value);
       if (!ref) return;
       if (current && ref.book === current.book) {
-        goToLine(ref.book, ref.line);
-        history.replaceState(null, "", hashFor(work.id, ref.book, ref.line));
+        goToSection(ref.book, ref.sec);
+        history.replaceState(null, "", hashFor(work.id, ref.book, ref.sec));
       } else {
-        selectBook(ref.book, ref.line);
+        selectBook(ref.book, ref.sec);
       }
       el.jump.blur();
     });
@@ -567,9 +426,9 @@
     window.addEventListener("hashchange", function () {
       var ref = fromHash();
       if (work && ref.id === work.id && current && ref.book === current.book) {
-        if (ref.line) goToLine(ref.book, ref.line);
+        if (ref.sec) goToSection(ref.book, ref.sec);
       } else {
-        selectWork(ref.id, ref.book, ref.line, false);
+        selectWork(ref.id, ref.book, ref.sec, false);
       }
     });
   }
@@ -587,7 +446,7 @@
         .catch(function () { lexicon = {}; });
 
       var ref = fromHash();
-      return selectWork(ref.id, ref.book, ref.line);
+      return selectWork(ref.id, ref.book, ref.sec);
     }).catch(function (e) {
       el.text.innerHTML = '<p class="error">Could not start: ' + esc(e.message) + "</p>";
     });

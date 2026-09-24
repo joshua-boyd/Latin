@@ -1,94 +1,94 @@
 # Latin Reader
 
-A static website for reading Caesar's *Gallic War*, Cicero's *Catilinarians*
-and Tacitus's *Histories* in Latin. Pick a work and a book from the sidebar,
-then click any word to see its dictionary form, a full morphological parse, its
-syntactic function and an English definition. The popup stays open until you
-click somewhere else.
+A static website for reading Caesar, Cicero and Tacitus in Latin — all three
+complete. Pick a work and a book from the sidebar, then click any word to see
+its dictionary form, a full morphological parse and an English definition. The
+popup stays open until you click somewhere else.
 
 This is the Latin counterpart of the [Greek reader](https://github.com/joshua-boyd/Greek),
-built the same way from the same project's treebanks.
+though it reads a different corpus; see *Where the text comes from* below.
 
 ## How the annotations work
 
 Every token is addressed **by its position in the text**, not by its spelling.
 Each word in `data/<work>/book-N.json` is a separate record carrying its own
-lemma, morphology tag and dependency relation, exactly as the Perseus
-annotators assigned them at that spot. Two identically spelled words therefore
-never share an analysis — ambiguous forms like `cum`, `quo` or `sua` each get
-whatever was annotated in that specific place.
+lemma and morphology, exactly as the LASLA annotators assigned them at that
+spot. Two identically spelled words therefore never share an analysis —
+ambiguous forms like `cum`, `quo` or `sua` each get whatever was annotated in
+that specific place.
 
 The only thing looked up by key is the English definition, which is keyed on
 the lemma the annotators already chose for that token.
 
 ## Coverage
 
-| Work | Divisions | Units | Tokens |
+| Author | Works | Books | Words |
 | --- | --- | --- | --- |
-| Caesar, *Gallic War* | Book 2 | 12 chapters | 1,553 |
-| Cicero, *In Catilinam* | Orations 1 and 2 | 23 chapters | 6,567 |
-| Tacitus, *Histories* | Book 1 | 197 sentences | 3,407 |
+| Caesar | 2 | 10 | 79,039 |
+| Cicero | 39 | 63 | 474,079 |
+| Tacitus | 5 | 20 | 165,251 |
+| **Total** | **46** | **93** | **718,369** |
 
-All three share one lexicon, covering 98.4% of 2,614 distinct lemmas. The
-remaining gaps are almost entirely Gallic tribal names and minor Roman
-cognomina, absent from both dictionaries; the reader labels those as names.
+Caesar is the *Gallic War* and the *Civil War*. Cicero is the speeches and the
+three short philosophical works LASLA has lemmatised — the Catilinarians, the
+Verrines, the Philippics, *Pro Milone*, *Pro Caelio*, *De Officiis* and the
+rest. Tacitus is the *Annals*, the *Histories*, the *Germania*, the *Agricola*
+and the *Dialogus*. The *Annals* is missing Books 7–10 because they do not
+survive.
 
-### What the treebank actually contains
+All 46 works share one lexicon, covering 87.4% of 12,953 distinct lemmas. Of
+the 1,629 gaps, 849 are proper names — the Gallic tribes, Sicilian towns and
+minor senators that neither dictionary lists — and the reader labels those as
+names using the corpus's own part-of-speech tag rather than guessing from
+capitalisation.
 
-The Latin Dependency Treebank was annotated text by text, and none of these
-three works is annotated whole. That shapes what the site can honestly show:
+## Where the text comes from
 
-- **Caesar** is twelve chapters of *Gallic War* Book 2 — 1, 2, 3, 5, 7, 9, 14,
-  15, 17, 18, 32 and 33. The chapters in between were never annotated, so they
-  are simply not there, and the numbering in the margin skips.
-- **Cicero** is the whole of the First Catilinarian and ten chapters of the
-  Second, which breaks off at chapter 11 and is missing chapter 9.
-- **Tacitus** is roughly the first forty-nine chapters of *Histories* Book 1.
+The **LASLA** *Opera Latina* corpus, built at the Université de Liège and
+published by CIRCSE in Milan as part of the [LiLa](https://lila-erc.eu/)
+project. Three consequences are worth knowing before you read:
 
-### Chapters, not sections
+- **There is no syntax.** LASLA's `HEAD` and `DEPREL` columns are empty
+  throughout, so the popup has no "Function" row. It tells you that a word is
+  a perfect passive participle in the feminine accusative singular; it does
+  not tell you what it modifies.
+- **The text is unpunctuated.** LASLA lemmatises words only, so there are no
+  punctuation tokens and the page shows continuous text with section numbers
+  as the only breaks.
+- **Consonantal *v* is written *u*.** `Seruius`, `diuisa`, `uidere`. That is
+  the corpus's classical orthography, left as it stands rather than
+  normalised, since `u` and `v` cannot be told apart reliably after the fact.
 
-Caesar's words carry `cite="urn:...:2.5"` and Cicero's sentences carry
-`subdoc="1.7"`. Both numbers are **chapters**: the treebank's `1.1` for Cicero
-holds 294 words, which is *In Catilinam* 1.1–3, the whole of chapter I. These
-speeches are more often cited by the finer section number, so the reader says
-"chapter" and means it rather than printing `Cic. Catil. 1.7` and letting it
-be read as a section.
+In exchange, every token carries a real citation. LASLA records
+`Liber / Capitulum / Paragraphus`, so `Tac. Ann. 1.1.1` in the popup is a
+canonical reference you can look up in any edition. Caesar and Tacitus are
+numbered book, chapter and section; Cicero's speeches by section alone, which
+is how they are cited.
 
-### A caveat about Tacitus
+### The Perseus treebank
 
-The Tacitus file carries no `cite` attributes and gives every sentence an empty
-`subdoc`, so canonical numbers are not present in the data at all. Rather than
-invent them, the reader numbers it **by sentence** and says so both on the page
-and in the popup, which reads `Tac. Hist. 1 · sentence 12` instead of
-pretending to be `Tac. Hist. 1.12`.
+The site was first built on the [Perseus Latin Dependency
+Treebank](https://github.com/PerseusDL/treebank_data), which *does* carry
+manual dependency annotation. It covers twelve chapters of *Gallic War* 2, the
+First Catilinarian and part of the Second, and the opening of *Histories* 1 —
+11,527 words against LASLA's 718,369. `tools/build_text.py` still reads it and
+is kept for reference, but it is no longer wired into `tools/build.py`, and
+the reader no longer renders its dependency labels.
 
-Upstream the file is filed as `phi1351.phi005`, Tacitus's *Annals*, and its
-header says *Annales*. Its text is not the *Annals*: it opens `Initium mihi
-operis Servius Galba iterum Titus Vinius consules erunt`, which is *Histories*
-1.1. The site labels it by what it is.
+## Adding another author
 
-## Enclitics
-
-The treebank splits `-que`, `-ve` and `-ne` off as tokens of their own, each
-with its own parse and its own dictionary entry. The page sets them flush
-against their host so it reads `litterisque` as the manuscript does; the popup
-shows `-que` so it is clear what was clicked.
-
-## Adding another text
-
-Append an entry to `WORKS` in `tools/build.py` and rerun the build. A
-*sectioned* work is one file addressed by book-or-speech and chapter; a *prose*
-work has no citations at all and is numbered by sentence; a *verse* work is one
-poem split into books by line citation. The JSON, the shared lexicon and the
-site's pickers all follow from that list; no front-end change is needed.
-Vergil's *Aeneid*, Ovid's *Metamorphoses*, Sallust, Propertius, Petronius and
-Suetonius are all available in the same treebank.
+Add a table to `tools/lasla_works.py` giving each work an id, a Latin title,
+an English one and a citation abbreviation, then list the author in `AUTHORS`
+and rerun the build. Books and section numbers come from the data's own
+citation hierarchy, so nothing else needs saying. LASLA has Seneca, Pliny,
+Ovid, Vergil, Sallust, Plautus, Lucretius, Horace and a dozen more sitting in
+the same repository.
 
 ## URLs
 
-`#caesar.2.5` and `#cicero.1.7` link to a work, book and chapter;
-`#tacitus.1.12` works the same way for a sentence. A bare `#2.5` still resolves
-to Caesar.
+`#caesar-gallicum.1.20.3` links to a work, book, chapter and section;
+`#cicero-archia.1.12` works the same way for a one-book speech numbered
+straight through.
 
 ## Running it locally
 
@@ -114,49 +114,56 @@ keeps Pages from reprocessing the site.
 python3 tools/build.py
 ```
 
-This downloads the sources into `tools/cache/` (about 1.4 GB, ignored by git)
+This downloads the sources into `tools/cache/` (about 1.6 GB, ignored by git)
 and regenerates `data/`. Use `--offline` to rebuild from an existing cache.
 
 | Script | Purpose |
 | --- | --- |
-| `tools/build.py` | Lists the works, fetches sources, drives the whole build |
-| `tools/build_text.py` | Treebank XML → one JSON file per book or speech |
+| `tools/build.py` | Fetches sources and drives the whole build |
+| `tools/lasla_works.py` | The work list: ids, titles and citation abbreviations |
+| `tools/lasla.py` | CoNLL-U Plus → one JSON file per book, morphology rendered |
 | `tools/build_lexicon.py` | Merges both dictionaries into `data/lexicon.json` |
 | `tools/lewis_short.py` | Pulls glosses out of Lewis & Short's TEI markup |
 | `tools/wiktionary.py` | Pulls glosses out of the Wiktionary dump |
 | `tools/tiers.py` | Tolerant headword matching across the three sources |
+| `tools/build_text.py` | Perseus treebank XML → JSON (kept, not wired up) |
 
 ### Notes on the build
 
-- Nodes marked `artificial="elliptic"` are annotator placeholders for words the
-  author omits. They carry no text and are dropped.
-- Punctuation has no citation of its own and inherits the chapter of the word
-  beside it. It is lemmatised too (`comma1`, `PERIOD1`, a bare `?`), but the
-  reader never makes it clickable, so it is left out of the lexicon.
+- Latin tense in Universal Dependencies is `Tense` × `Aspect`: the perfect is
+  `Past`+`Perf`, the imperfect `Past`+`Imp`, and participles carry `Aspect`
+  alone. `tools/lasla.py` renders the morphology at build time rather than in
+  the browser so the mapping sits next to the data it describes.
+- Underspecified forms carry several genders (`Fem,Masc`). Two are reported as
+  "feminine or masculine"; all three is no information, so it is dropped.
+- LASLA lemmatises proper nouns in lower case (`roma`, `seruius`). The lexicon
+  matches case-insensitively; the popup capitalises them for display.
 - Lewis & Short has no `<tr>` elements, so unlike LSJ its glosses have to be
   recovered from the italics inside the first sense — filtering out the
   morphological apparatus (`gen. plur.`, `2d pers. sing.`) that is set in the
   same italics, and the Latin forms, which keep their quantity marks.
-- Lemma and headword disagree in three predictable ways, so matching falls back
-  through four keys: exact → without Morpheus's homograph digit (`opus1` for
-  L&S's `opus`) → i/j and u/v folded (`conjuro`, `coniuro`) → prefix
-  assimilation levelled (`conloco` for `colloco`, `adservo` for `asservo`).
+- Lemma and headword disagree in predictable ways, so matching falls back
+  through four keys: exact → without the homograph digit → i/j and u/v folded
+  (which is also what reconciles LASLA's `uideo` with Wiktionary's `video`) →
+  prefix assimilation levelled (`conloco` for `colloco`).
 - Wiktionary lists senses in historical order, so a sense tagged New or
   Medieval Latin is taken only when there is no classical one. Without that,
   `Gallia` glosses as *France*.
-- Where both dictionaries have a lemma, Wiktionary wins: its glosses are
-  shorter, and L&S spends its first sense on etymology and quantity often
-  enough that its opening italics make a worse one-line answer.
+- Wiktionary files participial adjectives and *-e* adverbs (`adiacens`,
+  `acute`) as inflected forms. Those senses are held back for a last pass
+  rather than dropped, since their glosses are definitions and not pointers.
 
 ## Sources and licensing
 
-- Text and morphology: [Perseus Latin Dependency Treebank](https://github.com/PerseusDL/treebank_data)
-  v2.1 — CC BY-SA 3.0
+- Text and morphology: LASLA *Opera Latina*, Université de Liège, via
+  [CIRCSE / LiLa](https://github.com/CIRCSE/LASLA) — **CC BY-NC-SA 4.0**
 - Definitions: [Wiktionary](https://en.wiktionary.org/) via
   [kaikki.org](https://kaikki.org/) — CC BY-SA 4.0
 - Definitions: Lewis & Short, *A Latin Dictionary*, via
   [Perseus](https://github.com/PerseusDL/lexica) — CC BY-SA 3.0
 
-Both dictionary sources are share-alike, so the generated data in `data/` is
-released under **CC BY-SA 4.0**. The site code in `index.html`, `assets/` and
-`tools/` is MIT licensed.
+The text and morphology are **NonCommercial**, so the per-work JSON under
+`data/<work>/` is released under **CC BY-NC-SA 4.0** and may not be used
+commercially. `data/lexicon.json` is built only from Wiktionary and Lewis &
+Short and remains **CC BY-SA 4.0**. The site code in `index.html`, `assets/`
+and `tools/` is MIT licensed.
