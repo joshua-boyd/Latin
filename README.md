@@ -6,7 +6,7 @@ then click any word to see its dictionary form, a full morphological parse, its
 syntactic function and an English definition. The popup stays open until you
 click somewhere else.
 
-This is the Latin counterpart of the [Greek reader](https://github.com/joshboyd7/Greek),
+This is the Latin counterpart of the [Greek reader](https://github.com/joshua-boyd/Greek),
 built the same way from the same project's treebanks.
 
 ## How the annotations work
