@@ -50,6 +50,13 @@ TENSE = {
     (None, "Imp"): "present",
     (None, "Perf"): "perfect",
     (None, "Prosp"): "future",
+    # Some UD Latin treebanks name the tense outright instead of splitting it
+    # across Tense and Aspect; accept that spelling too.
+    ("Perf", None): "perfect",
+    ("Pqp", None): "pluperfect",
+    ("Past", None): "imperfect",
+    ("Pres", None): "present",
+    ("Fut", None): "future",
 }
 
 MOOD = {"Ind": "indicative", "Sub": "subjunctive", "Imp": "imperative"}
@@ -139,6 +146,32 @@ def parse_of(upos, feats):
     return pos + " — " + ", ".join(groups) if groups else pos
 
 
+# Flags packed into one integer per token, so the reader can lay the text out
+# without re-deriving any of it.
+NAME, PUNCT, JOIN = 1, 2, 4
+
+
+def flags_of(upos, feats, lemma, first):
+    """Proper noun, punctuation, and "set flush against the word before".
+
+    Both corpora split an enclitic off as its own token spelled without its
+    hyphen — "populus" + "que" — which would otherwise render as two words.
+    -que and -ue are unambiguous; ne is not, since the same spelling is also
+    the negative conjunction, so only the interrogative particle is joined.
+    """
+    f = 0
+    if upos == "PROPN":
+        f |= NAME
+    if upos == "PUNCT":
+        f |= PUNCT | JOIN
+    if not first:
+        if lemma in ("que", "ue", "ve") and upos == "CCONJ":
+            f |= JOIN
+        elif lemma == "ne" and upos == "PART" and "PartType=Int" in (feats or ""):
+            f |= JOIN
+    return f
+
+
 class Table:
     """Interns repeated strings so each token can store small integer ids."""
 
@@ -189,12 +222,13 @@ def read(path):
             "form": f[1],
             "lemma": f[2] if f[2] != "_" else "",
             "upos": f[3],
+            "feats": f[5],
             "parse": parse_of(f[3], f[5]),
             "sid": sid,
         }
 
 
-def build(path, out_dir, book_no=None):
+def build(path, out_dir, book_no=None, auto=False):
     """One .conllup -> one JSON per liber. Returns a list of division records."""
     books = collections.OrderedDict()
     for liber, unit, tok in read(path):
@@ -207,13 +241,17 @@ def build(path, out_dir, book_no=None):
         lines, total = [], 0
         for unit, toks in units.items():
             packed = [[t["form"], lemmas.idx(t["lemma"]), parses.idx(t["parse"]),
-                       1 if t["upos"] == "PROPN" else 0, t["sid"]] for t in toks]
+                       flags_of(t["upos"], t["feats"], t["lemma"], i == 0),
+                       t["sid"]]
+                      for i, t in enumerate(toks)]
             lines.append({"n": unit, "w": packed})
             total += len(packed)
 
         os.makedirs(out_dir, exist_ok=True)
         data = {"book": n, "scheme": "ud", "lemmas": lemmas.items,
                 "parses": parses.items, "lines": lines}
+        if auto:
+            data["auto"] = True
         with open(os.path.join(out_dir, "book-%d.json" % n), "w",
                   encoding="utf-8") as fh:
             import json

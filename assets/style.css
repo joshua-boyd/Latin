@@ -288,6 +288,25 @@ html, body {
   font-style: italic;
 }
 
+/* Machine-annotated works say so in a colour you cannot miss. */
+.prose-note.auto-note {
+  color: var(--accent);
+  font-style: normal;
+  border-left: 3px solid var(--accent);
+  padding: .1rem 0 .1rem .7rem;
+}
+
+.auto-tag {
+  display: inline-block;
+  border: 1px solid currentColor;
+  border-radius: 3px;
+  padding: 0 .25em;
+  margin-left: .35em;
+  font-size: .9em;
+  letter-spacing: .04em;
+  opacity: .85;
+}
+
 .lnum {
   flex: 0 0 2.6rem;
   text-align: right;

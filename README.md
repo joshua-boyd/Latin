@@ -12,8 +12,9 @@ though it reads a different corpus; see *Where the text comes from* below.
 
 Every token is addressed **by its position in the text**, not by its spelling.
 Each word in `data/<work>/book-N.json` is a separate record carrying its own
-lemma and morphology, exactly as the LASLA annotators assigned them at that
-spot. Two identically spelled words therefore never share an analysis —
+lemma and morphology, as assigned at that spot — by the LASLA annotators for
+46 of the 48 works, by a tagger for the other two. Two identically spelled
+words therefore never share an analysis —
 ambiguous forms like `cum`, `quo` or `sua` each get whatever was annotated in
 that specific place.
 
@@ -25,19 +26,22 @@ the lemma the annotators already chose for that token.
 | Author | Works | Books | Words |
 | --- | --- | --- | --- |
 | Caesar | 2 | 10 | 79,039 |
-| Cicero | 39 | 63 | 474,079 |
+| Cicero | 41 | 72 | 522,529 |
 | Tacitus | 5 | 20 | 165,251 |
-| **Total** | **46** | **93** | **718,369** |
+| **Total** | **48** | **102** | **766,819** |
 
 Caesar is the *Gallic War* and the *Civil War*. Cicero is the speeches and the
-three short philosophical works LASLA has lemmatised — the Catilinarians, the
-Verrines, the Philippics, *Pro Milone*, *Pro Caelio*, *De Officiis* and the
+philosophical works — the Catilinarians, the Verrines, the Philippics, *Pro
+Milone*, *Pro Caelio*, *De Officiis*, *De Re Publica*, *De Legibus* and the
 rest. Tacitus is the *Annals*, the *Histories*, the *Germania*, the *Agricola*
 and the *Dialogus*. The *Annals* is missing Books 7–10 because they do not
 survive.
 
-All 46 works share one lexicon, covering 87.4% of 12,953 distinct lemmas. Of
-the 1,629 gaps, 849 are proper names — the Gallic tribes, Sicilian towns and
+Two of those 48 works — ***De Re Publica*** and ***De Legibus*** — are
+machine-annotated. See below.
+
+All 48 works share one lexicon, covering 85.3% of 14,262 distinct lemmas. A
+good half of the gaps are proper names — the Gallic tribes, Sicilian towns and
 minor senators that neither dictionary lists — and the reader labels those as
 names using the corpus's own part-of-speech tag rather than guessing from
 capitalisation.
@@ -65,13 +69,48 @@ canonical reference you can look up in any edition. Caesar and Tacitus are
 numbered book, chapter and section; Cicero's speeches by section alone, which
 is how they are cited.
 
+## The two machine-annotated works
+
+*De Re Publica* and *De Legibus* are in no annotated corpus at all — not
+LASLA, not Perseus, not PROIEL, not CIRCSE. Rather than leave them out, the
+build generates their morphology:
+
+| | *De Re Publica* | *De Legibus* |
+| --- | --- | --- |
+| Text | Perseus TEI, CC BY-SA | The Latin Library |
+| Books · words | 6 · 25,876 | 3 · 22,574 |
+| Morphology | LatinCy `la_core_web_lg` | LatinCy `la_core_web_lg` |
+
+**These parses have not been checked by anyone.** A tagger is wrong a few
+times in a hundred, and it is wrong most often exactly where Latin is
+ambiguous and you would most want help. The reader says so: both works carry a
+note at the head of every book, and both are tagged `auto` in the sidebar.
+
+Producing them needs spaCy and a ~500 MB model that nothing else in the build
+uses, so `tools/annotate.py` runs from its own virtualenv and caches its
+output as CoNLL-U Plus in `tools/cache/auto/`. From there `tools/lasla.py`
+reads it exactly as it reads LASLA, and the rest of the build cannot tell the
+difference. Run it once by hand:
+
+```bash
+python3 -m venv tools/cache/venv
+tools/cache/venv/bin/pip install spacy==3.8.16
+tools/cache/venv/bin/pip install \
+  https://huggingface.co/latincy/la_core_web_lg/resolve/main/la_core_web_lg-3.9.8-py3-none-any.whl
+tools/cache/venv/bin/python tools/annotate.py
+```
+
+LatinCy normalises consonantal *v* to *u*, which happens to put these two
+works in the same orthography as the LASLA texts — but it does mean the
+spelling on the page is not the spelling in the Perseus edition.
+
 ### The Perseus treebank
 
 The site was first built on the [Perseus Latin Dependency
 Treebank](https://github.com/PerseusDL/treebank_data), which *does* carry
 manual dependency annotation. It covers twelve chapters of *Gallic War* 2, the
 First Catilinarian and part of the Second, and the opening of *Histories* 1 —
-11,527 words against LASLA's 718,369. `tools/build_text.py` still reads it and
+11,527 words against the 766,819 here. `tools/build_text.py` still reads it and
 is kept for reference, but it is no longer wired into `tools/build.py`, and
 the reader no longer renders its dependency labels.
 
@@ -88,7 +127,7 @@ the same repository.
 
 `#caesar-gallicum.1.20.3` links to a work, book, chapter and section;
 `#cicero-archia.1.12` works the same way for a one-book speech numbered
-straight through.
+straight through, and `#cicero-legibus.2.14` for a book and section.
 
 ## Running it locally
 
@@ -122,6 +161,8 @@ and regenerates `data/`. Use `--offline` to rebuild from an existing cache.
 | `tools/build.py` | Fetches sources and drives the whole build |
 | `tools/lasla_works.py` | The work list: ids, titles and citation abbreviations |
 | `tools/lasla.py` | CoNLL-U Plus → one JSON file per book, morphology rendered |
+| `tools/auto_text.py` | De Re Publica and De Legibus → (book, section, text) |
+| `tools/annotate.py` | Machine morphology for those two, via LatinCy (own venv) |
 | `tools/build_lexicon.py` | Merges both dictionaries into `data/lexicon.json` |
 | `tools/lewis_short.py` | Pulls glosses out of Lewis & Short's TEI markup |
 | `tools/wiktionary.py` | Pulls glosses out of the Wiktionary dump |
@@ -152,6 +193,11 @@ and regenerates `data/`. Use `--offline` to rebuild from an existing cache.
 - Wiktionary files participial adjectives and *-e* adverbs (`adiacens`,
   `acute`) as inflected forms. Those senses are held back for a last pass
   rather than dropped, since their glosses are definitions and not pointers.
+- Both corpora split an enclitic into its own token spelled without its hyphen
+  — `populus` + `que` — which would otherwise render as two words. `-que` and
+  `-ue` are joined to the word before unconditionally; `ne` only when it is
+  tagged the interrogative particle, since the same spelling is also the
+  negative conjunction.
 
 ## Sources and licensing
 
@@ -162,8 +208,12 @@ and regenerates `data/`. Use `--offline` to rebuild from an existing cache.
 - Definitions: Lewis & Short, *A Latin Dictionary*, via
   [Perseus](https://github.com/PerseusDL/lexica) — CC BY-SA 3.0
 
-The text and morphology are **NonCommercial**, so the per-work JSON under
-`data/<work>/` is released under **CC BY-NC-SA 4.0** and may not be used
+- *De Re Publica* text: [Perseus Digital Library](https://github.com/PerseusDL/canonical-latinLit) — CC BY-SA 3.0
+- *De Legibus* text: [The Latin Library](https://www.thelatinlibrary.com/)
+- Machine morphology for both: [LatinCy](https://huggingface.co/latincy) `la_core_web_lg` — MIT
+
+The LASLA text and morphology are **NonCommercial**, so the per-work JSON
+under `data/<work>/` is released under **CC BY-NC-SA 4.0** and may not be used
 commercially. `data/lexicon.json` is built only from Wiktionary and Lewis &
 Short and remains **CC BY-SA 4.0**. The site code in `index.html`, `assets/`
 and `tools/` is MIT licensed.
