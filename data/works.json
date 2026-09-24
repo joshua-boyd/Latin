@@ -1,0 +1,70 @@
+{
+ "works": [
+  {
+   "id": "caesar",
+   "title": "Caesar",
+   "author": "C. Iulius Caesar",
+   "label": "Gallic War",
+   "latin": "Bellum Gallicum",
+   "ref": "Caes. Gal.",
+   "kind": "sectioned",
+   "unit": "chapter",
+   "noun": "Book",
+   "note": "Of the Gallic War the treebank annotates twelve chapters of Book 2; the chapters it skips are simply absent.",
+   "divisions": [
+    {
+     "n": 2,
+     "units": 12,
+     "first": 1,
+     "title": "The Campaign against the Belgae"
+    }
+   ]
+  },
+  {
+   "id": "cicero",
+   "title": "Cicero",
+   "author": "M. Tullius Cicero",
+   "label": "Against Catiline",
+   "latin": "In Catilinam",
+   "ref": "Cic. Catil.",
+   "kind": "sectioned",
+   "unit": "chapter",
+   "noun": "Oration",
+   "note": "Numbered by chapter, the unit the annotators recorded, not by the finer section numbers also used to cite these speeches. The First Catilinarian is complete; the Second breaks off in chapter 11, and chapter 9 was never annotated.",
+   "divisions": [
+    {
+     "n": 1,
+     "units": 13,
+     "first": 1,
+     "title": "Delivered in the Senate"
+    },
+    {
+     "n": 2,
+     "units": 10,
+     "first": 1,
+     "title": "Delivered to the People"
+    }
+   ]
+  },
+  {
+   "id": "tacitus",
+   "title": "Tacitus",
+   "author": "Cornelius Tacitus",
+   "label": "Histories",
+   "latin": "Historiae",
+   "ref": "Tac. Hist.",
+   "kind": "prose",
+   "unit": "sentence",
+   "noun": "Book",
+   "note": "The treebank records no chapter or section numbers for this text, so it is numbered by sentence. Upstream the file is filed under Tacitus's Annals; its text is in fact the opening of the Histories.",
+   "divisions": [
+    {
+     "n": 1,
+     "units": 197,
+     "first": 1,
+     "title": "The Year of the Four Emperors begins"
+    }
+   ]
+  }
+ ]
+}
